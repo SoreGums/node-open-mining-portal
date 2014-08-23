@@ -44,11 +44,6 @@ Usage of this software requires abilities with sysadmin, database admin, coin da
 * For the pool server it uses the highly efficient [node-stratum-pool](//github.com/zone117x/node-stratum-pool) module which
 supports vardiff, POW & POS, transaction messages, anti-DDoS, IP banning, [several hashing algorithms](//github.com/zone117x/node-stratum-pool#hashing-algorithms-supported).
 
-* The portal has an [MPOS](//github.com/MPOS/php-mpos) compatibility mode so that the it can
-function as a drop-in-replacement for [python-stratum-mining](//github.com/Crypto-Expert/stratum-mining). This
-mode can be enabled in the configuration and will insert shares into a MySQL database in the format which MPOS expects.
-For a direct tutorial see the wiki page [Setting up NOMP for MPOS usage](//github.com/zone117x/node-open-mining-portal/wiki/Setting-up-NOMP-for-MPOS-usage).
-
 * Multi-pool ability - this software was built from the ground up to run with multiple coins simultaneously (which can
 have different properties and hashing algorithms). It can be used to create a pool for a single coin or for multiple
 coins at once. The pools use clustering to load balance across multiple CPU cores.
@@ -216,7 +211,7 @@ Explanation for each field:
         /* Disconnect workers that haven't submitted shares for this many seconds. */
         "connectionTimeout": 600,
         
-        /* (For MPOS mode) Store the block hashes for shares that aren't block candidates. */
+        /* Store the block hashes for shares that aren't block candidates. */
         "emitInvalidBlockHashes": false,
         
         /* This option will only authenticate miners using an address or mining key. */
@@ -360,8 +355,6 @@ Here is an example of the required fields:
     "peerMagicTestnet": "fcc1b7dc" //optional
 
     //"txMessages": false, //options - defaults to false
-
-    //"mposDiffMultiplier": 256, //options - only for x11 coins in mpos mode
 }
 ````
 
@@ -468,25 +461,6 @@ Description of options:
            feature that prevents the daemon from spamming our peer node with unnecessary
            transaction data. Assume its supported but if you have problems try disabling it. */
         "disableTransactions": true
-    },
-    
-    /* Enabled this mode and shares will be inserted into in a MySQL database. You may also want
-       to use the "emitInvalidBlockHashes" option below if you require it. The config options
-       "redis" and "paymentProcessing" will be ignored/unused if this is enabled. */
-    "mposMode": {
-        "enabled": false,
-        "host": "127.0.0.1", //MySQL db host
-        "port": 3306, //MySQL db port
-        "user": "me", //MySQL db user
-        "password": "mypass", //MySQL db password
-        "database": "ltc", //MySQL db database name
-
-        /* Checks for valid password in database when miners connect. */
-        "checkPassword": true,
-
-        /* Unregistered workers can automatically be registered (added to database) on stratum
-           worker authentication if this is true. */
-        "autoCreateWorker": false
     }
 }
 
@@ -560,7 +534,6 @@ Credits
 * [TheSeven](//github.com/TheSeven) - answering an absurd amount of my questions and being a very helpful gentleman
 * [UdjinM6](//github.com/UdjinM6) - helped implement fee withdrawal in payment processing
 * [Alex Petrov / sysmanalex](https://github.com/sysmanalex) - contributed the pure C block notify script
-* [svirusxxx](//github.com/svirusxxx) - sponsored development of MPOS mode
 * [icecube45](//github.com/icecube45) - helping out with the repo wiki
 * [Fcases](//github.com/Fcases) - ordered me a pizza <3
 * Those that contributed to [node-stratum-pool](//github.com/zone117x/node-stratum-pool#credits)
